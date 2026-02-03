@@ -6,4 +6,4 @@ logs/
 dist/
 build/
 .DS_Store
-package-lock.json
+# package-lock.json - KHÔNG ignore lockfile cho production deployment!
