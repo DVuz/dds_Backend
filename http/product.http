@@ -1,0 +1,159 @@
+### GET all products (no filter)
+GET {{BE_URL}}/products
+
+### GET products with filters (camelCase format - auto converted to snake_case)
+GET {{BE_URL}}/products?status=active&productCode=P001&categoryId=1&page=1&limit=10&sortBy=createdAt&sortOrder=DESC
+
+### GET products with price range
+GET {{BE_URL}}/products?minPrice=100000&maxPrice=500000
+
+### GET products by product type and color
+GET {{BE_URL}}/products?productTypeId=2&colorVn=Đỏ
+
+### GET products by name (Vietnamese)
+GET {{BE_URL}}/products?productNameVn=Sofa
+
+### PUT - Update product (all fields with new images)
+PUT {{BE_URL}}/products/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productCode"
+
+P001-UPDATED
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productNameVn"
+
+Ghế Sofa Cao Cấp Mới
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="length"
+
+200
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="width"
+
+100
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="height"
+
+80
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="materialVn"
+
+Gỗ sồi cao cấp
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="colorVn"
+
+Nâu đậm
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Mô tả mới cho sản phẩm
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+15000000
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeId"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+active
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="originVn"
+
+Việt Nam
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="warrantyPeriod"
+
+24
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="mainImage"; filename="main-new.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/new-main-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="subImage"; filename="sub1-new.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/new-sub-image-1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="subImage"; filename="sub2-new.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/new-sub-image-2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### PUT - Update product (only name - partial update)
+PUT {{BE_URL}}/products/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productNameVn"
+
+Ghế Sofa Hiện Đại
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### PUT - Update product (only price - partial update)
+PUT {{BE_URL}}/products/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+12000000
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### PUT - Update product (only description - partial update)
+PUT {{BE_URL}}/products/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Mô tả chi tiết mới cho sản phẩm ghế sofa
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### PUT - Update product (only status - partial update)
+PUT {{BE_URL}}/products/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+inactive
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### PUT - Update product (only main image - partial update)
+PUT {{BE_URL}}/products/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="mainImage"; filename="updated-main.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/updated-main-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### PUT - Update product (only dimensions - partial update)
+PUT {{BE_URL}}/products/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="length"
+
+220
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="width"
+
+110
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="height"
+
+85
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### DELETE - Delete product by ID
+DELETE {{BE_URL}}/products/1

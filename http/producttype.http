@@ -1,0 +1,188 @@
+### Get all product types (default: active, page 1, limit 10)
+GET http://{{BE_URL}}/product-types
+
+###
+
+### Get product types with pagination
+GET http://{{BE_URL}}/product-types?page=1&limit=5
+
+###
+
+### Get product types by category
+GET http://{{BE_URL}}/product-types?category_id=1
+
+###
+
+### Search product types by name
+GET http://{{BE_URL}}/product-types?product_type_name_vn=Áo
+
+###
+
+### Get all product types (including inactive)
+GET http://{{BE_URL}}/product-types?status=all
+
+###
+
+### Get inactive product types only
+GET http://{{BE_URL}}/product-types?status=inactive
+
+###
+
+### Get product types sorted by name ascending
+GET http://{{BE_URL}}/product-types?sort_by=product_type_name_vn&sort_order=ASC
+
+###
+
+### Get product types with multiple filters
+GET http://{{BE_URL}}/product-types?category_id=1&status=active&page=1&limit=10&sort_by=created_at&sort_order=DESC
+
+###
+
+### POST - Create new product type (with image)
+POST http://{{BE_URL}}/product-types
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryId"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeNameVn"
+
+Áo thun nam
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Áo thun nam cotton cao cấp
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+active
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeImage"; filename="producttype.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### POST - Create new product type (without image, using camelCase - auto converted)
+POST http://{{BE_URL}}/product-types
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryId"
+
+2
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeNameVn"
+
+Quần jean
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Quần jean thời trang
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+active
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### PUT - Update product type (all fields with new image)
+PUT http://{{BE_URL}}/product-types/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryId"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeNameVn"
+
+Ghế Sofa Cao Cấp
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Mô tả mới cho loại sản phẩm ghế sofa cao cấp
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+active
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeImage"; filename="sofa-new.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/new-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### PUT - Update product type (only name - partial update)
+PUT http://{{BE_URL}}/product-types/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeNameVn"
+
+Ghế Sofa Hiện Đại
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### PUT - Update product type (only description - partial update)
+PUT http://{{BE_URL}}/product-types/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Mô tả mới cho loại sản phẩm
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### PUT - Update product type (only status - partial update)
+PUT http://{{BE_URL}}/product-types/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+inactive
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### PUT - Update product type (only category - partial update)
+PUT http://{{BE_URL}}/product-types/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryId"
+
+2
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### PUT - Update product type (only image - partial update)
+PUT http://{{BE_URL}}/product-types/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="productTypeImage"; filename="updated-image.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/updated-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### DELETE - Delete product type by ID
+DELETE http://{{BE_URL}}/product-types/1
+
+###
+

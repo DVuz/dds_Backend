@@ -1,0 +1,116 @@
+### GET all categories
+GET {{BE_URL}}/categories
+
+### GET categories with filters
+GET {{BE_URL}}/categories?status=active&categoryNameVn=Ghế&page=1&limit=10&sortBy=createdAt&sortOrder=DESC
+
+### GET categories - filter by name
+GET {{BE_URL}}/categories?categoryNameVn=Sofa
+
+### CREATE new category with image
+POST {{BE_URL}}/categories
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryNameVn"
+
+Ghế Sofa
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Các loại ghế sofa cao cấp
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+active
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryImage"; filename="sofa.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### CREATE new category without image
+POST {{BE_URL}}/categories
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryNameVn"
+
+Bàn làm việc
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Các loại bàn làm việc văn phòng
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+active
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### UPDATE category - Change all fields with new image
+PUT {{BE_URL}}/categories/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryNameVn"
+
+Ghế Sofa Cao Cấp
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Các loại ghế sofa cao cấp nhập khẩu
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+active
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryImage"; filename="sofa-new.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/new-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### UPDATE category - Only change name (partial update)
+PUT {{BE_URL}}/categories/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryNameVn"
+
+Ghế Sofa Hiện Đại
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### UPDATE category - Only change description (partial update)
+PUT {{BE_URL}}/categories/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="descriptionVn"
+
+Mô tả mới cho danh mục ghế sofa
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### UPDATE category - Only change status (partial update)
+PUT {{BE_URL}}/categories/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+inactive
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### UPDATE category - Only change image (partial update)
+PUT {{BE_URL}}/categories/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="categoryImage"; filename="updated-image.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/updated-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### DELETE category
+DELETE {{BE_URL}}/categories/1
