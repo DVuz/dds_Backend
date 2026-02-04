@@ -3,6 +3,7 @@ const ProductTypeModel = require('../../models/producttype.model');
 const { getCache, setCache, generateCacheKey } = require('../../utils/cache/redis');
 const logger = require('../../utils/logger');
 const { HTTP_STATUS } = require('../../config/constants');
+const { RECOMMENDED_TTL } = require('../../config/cache.config');
 
 /**
  * Controller to get product types with filtering, sorting, pagination, and caching.
@@ -29,13 +30,11 @@ const getProductType = async (req, res) => {
     const cachedData = await getCache(cacheKey);
     if (cachedData) {
       logger.info('Product types retrieved from cache');
-      return res.status(HTTP_STATUS.OK).json(
-        successResponse(
-          cachedData,
-          'Get product types from cache successfully',
-          'redis'
-        )
-      );
+      return res
+        .status(HTTP_STATUS.OK)
+        .json(
+          successResponse(cachedData, 'Get product types from cache successfully', 'redis_Backend')
+        );
     }
 
     // Get from database
@@ -46,17 +45,13 @@ const getProductType = async (req, res) => {
       pagination: result.pagination,
     };
 
-    // Cache the result for 60 seconds
-    await setCache(cacheKey, responseData, 60);
+    // Cache the result for 1 hour (product types change rarely)
+    await setCache(cacheKey, responseData, RECOMMENDED_TTL.PRODUCT_TYPES);
 
     logger.info(`Product types retrieved successfully: ${result.productTypes.length} items`);
-    return res.status(HTTP_STATUS.OK).json(
-      successResponse(
-        responseData,
-        'Get product types successfully',
-        'db'
-      )
-    );
+    return res
+      .status(HTTP_STATUS.OK)
+      .json(successResponse(responseData, 'Get product types successfully', 'db'));
   } catch (error) {
     logger.error(`Error in getProductType controller: ${error.message}`);
     return errorResponse(res, {}, 500, 'Internal server error');

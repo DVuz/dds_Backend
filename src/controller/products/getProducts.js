@@ -2,6 +2,7 @@ const { successResponse, errorResponse } = require('../../utils/response');
 const ProductModel = require('../../models/product.model');
 const { getCache, setCache, generateCacheKey } = require('../../utils/cache/redis');
 const { HTTP_STATUS } = require('../../config/constants');
+const { RECOMMENDED_TTL } = require('../../config/cache.config');
 
 /**
  * Controller to get products with filtering, sorting, pagination, and caching.
@@ -51,14 +52,14 @@ const getProducts = async (req, res) => {
     if (cachedData) {
       return res
         .status(HTTP_STATUS.OK)
-        .json(successResponse(cachedData, 'Get products from cache successfully', 'redis'));
+        .json(successResponse(cachedData, 'Get products from cache successfully', 'redis_Backend'));
     }
 
     // Get products from model
     const result = await ProductModel.getProducts(filters);
 
-    // Save to cache with 60 seconds TTL
-    await setCache(cacheKey, result, 60);
+    // Save to cache with 5 minutes TTL (products change frequently)
+    await setCache(cacheKey, result, RECOMMENDED_TTL.PRODUCTS_LIST);
 
     return res
       .status(HTTP_STATUS.OK)

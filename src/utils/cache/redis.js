@@ -1,9 +1,10 @@
 const clientRedis = require('../../config/redis');
+const { snakeObjToCamelObj } = require('../camelObjToSnakeObj');
 
 /**
  * Get data from cache
  * @param {string} key - Cache key
- * @returns {Promise<any|null>} - Parsed data or null if not found
+ * @returns {Promise<any|null>} - Parsed data or null if not found (in camelCase format)
  */
 const getCache = async key => {
   try {
@@ -23,17 +24,19 @@ const getCache = async key => {
 /**
  * Set data to cache with TTL
  * @param {string} key - Cache key
- * @param {any} data - Data to cache
+ * @param {any} data - Data to cache (will be converted to camelCase before storing)
  * @param {number} ttl - Time to live in seconds (default: 60)
  * @returns {Promise<boolean>} - Success status
  */
 const setCache = async (key, data, ttl = 60) => {
   try {
-    await clientRedis.setEx(key, ttl, JSON.stringify(data));
-    console.log(' Cache saved:', key, `(TTL: ${ttl}s)`);
+    // Convert snake_case to camelCase before storing in Redis
+    const camelCaseData = snakeObjToCamelObj(data);
+    await clientRedis.setEx(key, ttl, JSON.stringify(camelCaseData));
+    console.log('💾 Cache saved (camelCase):', key, `(TTL: ${ttl}s)`);
     return true;
   } catch (error) {
-    console.warn(' Redis set error:', error.message);
+    console.warn('⚠️ Redis set error:', error.message);
     return false;
   }
 };

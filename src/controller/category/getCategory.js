@@ -3,6 +3,7 @@ const CategoryModel = require('../../models/category.model');
 const { getCache, setCache, generateCacheKey } = require('../../utils/cache/redis');
 const getProductTypesByCategoryID = require('../helpers/getProductTypesByCategoryID');
 const { HTTP_STATUS } = require('../../config/constants');
+const { RECOMMENDED_TTL } = require('../../config/cache.config');
 
 /**
  * Controller to get categories with filtering, sorting, pagination, and caching.
@@ -36,10 +37,13 @@ const getCategory = async (req, res) => {
 
     // Try to get from cache first
     const cachedData = await getCache(cacheKey);
+    console.log('Cache Key:', cacheKey);
     if (cachedData) {
       return res
         .status(HTTP_STATUS.OK)
-        .json(successResponse(cachedData, 'Get categories from cache successfully', 'redis'));
+        .json(
+          successResponse(cachedData, 'Get categories from cache successfully', 'redis_Backend')
+        );
     }
 
     // Get categories from model
@@ -50,8 +54,8 @@ const getCategory = async (req, res) => {
       category.producttypes = await getProductTypesByCategoryID(category.category_id);
     }
 
-    // Save to cache with 60 seconds TTL
-    await setCache(cacheKey, result, 60);
+    // Save to cache with 1 hour TTL (categories change rarely)
+    await setCache(cacheKey, result, RECOMMENDED_TTL.CATEGORIES);
 
     return res
       .status(HTTP_STATUS.OK)
