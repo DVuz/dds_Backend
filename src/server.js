@@ -16,13 +16,15 @@ async function connectDatabaseWithRetry(maxRetries = 5, delayMs = 3000) {
       connection.release();
       return true;
     } catch (error) {
-      logger.warn(`⚠️  Database connection attempt ${attempt}/${maxRetries} failed: ${error.message}`);
-      
+      logger.warn(
+        `⚠️  Database connection attempt ${attempt}/${maxRetries} failed: ${error.message}`
+      );
+
       if (attempt === maxRetries) {
         logger.error('❌ All database connection attempts failed');
         throw error;
       }
-      
+
       logger.info(`⏳ Retrying in ${delayMs / 1000} seconds...`);
       await new Promise(resolve => setTimeout(resolve, delayMs));
     }
@@ -32,17 +34,17 @@ async function connectDatabaseWithRetry(maxRetries = 5, delayMs = 3000) {
 // Graceful Shutdown Handler
 async function gracefulShutdown(signal) {
   logger.info(`\n${signal} received. Starting graceful shutdown...`);
-  
+
   // Stop accepting new connections
   if (server) {
     server.close(async () => {
       logger.info('✅ HTTP server closed');
-      
+
       try {
         // Close database connections
         await db.end();
         logger.info('✅ Database connections closed');
-        
+
         logger.info('✅ Graceful shutdown completed');
         process.exit(0);
       } catch (error) {
@@ -50,7 +52,7 @@ async function gracefulShutdown(signal) {
         process.exit(1);
       }
     });
-    
+
     // Force shutdown after 30 seconds
     setTimeout(() => {
       logger.error('⚠️  Forceful shutdown after timeout');
@@ -66,7 +68,7 @@ async function startServer() {
   try {
     // Connect to database with retry
     await connectDatabaseWithRetry();
-    
+
     // Start Express server
     server = app.listen(PORT, HOST, () => {
       logger.info(`🚀 Server is running on http://${HOST}:${PORT}`);
