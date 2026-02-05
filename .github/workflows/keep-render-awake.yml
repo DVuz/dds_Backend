@@ -1,0 +1,32 @@
+name: Keep Render Server Awake
+
+on:
+  schedule:
+    # Chạy mỗi 10 phút (Render free tier sleep sau 15 phút không hoạt động)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Cho phép chạy manual từ GitHub UI
+
+jobs:
+  ping-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Health Check Endpoint
+        run: |
+          echo "🏓 Pinging server at $(date)"
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://dds-backend-render.vtd26.io.vn/health)
+
+          if [ $response -eq 200 ]; then
+            echo "✅ Server is awake! Status code: $response"
+          else
+            echo "⚠️ Server returned status code: $response"
+            exit 1
+          fi
+
+      - name: Log Success
+        if: success()
+        run: echo "✅ Keep-alive ping successful at $(date)"
+
+      - name: Log Failure
+        if: failure()
+        run: echo "❌ Keep-alive ping failed at $(date)"
